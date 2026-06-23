@@ -51,13 +51,14 @@ export function Sidebar() {
   return (
     <aside
       className={cn(
-        'fixed left-0 top-0 z-40 flex h-screen flex-col border-r border-sidebar-border bg-sidebar text-sidebar-foreground transition-all duration-200',
+        'fixed left-0 top-0 z-40 flex h-screen flex-col border-r border-sidebar-border text-sidebar-foreground transition-all duration-200',
+        'bg-gradient-to-b from-[#0c1a2e] via-[#0f2035] to-[#0a1522]',
         collapsed ? 'w-[68px]' : 'w-60',
       )}
     >
-      <div className="flex h-14 items-center gap-3 border-b border-sidebar-border px-4">
-        <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-white/10">
-          <Building2 className="h-4 w-4 text-white" strokeWidth={1.75} />
+      <div className="flex h-14 items-center gap-3 border-b border-sidebar-border/80 px-4">
+        <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-brand/20 ring-1 ring-brand/30">
+          <Building2 className="h-4 w-4 text-brand" strokeWidth={1.75} />
         </div>
         {!collapsed && (
           <div className="min-w-0">
@@ -89,14 +90,17 @@ export function Sidebar() {
                       href={item.href}
                       title={collapsed ? item.label : undefined}
                       className={cn(
-                        'group flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium transition-colors',
+                        'group flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-all',
                         active
-                          ? 'bg-white/10 text-white'
+                          ? 'bg-white/10 text-white shadow-sm ring-1 ring-white/10'
                           : 'text-sidebar-muted hover:bg-sidebar-accent hover:text-sidebar-foreground',
-                        active && 'border-l-2 border-l-white/80 pl-[10px]',
+                        active && 'border-l-[3px] border-l-brand pl-[9px]',
                       )}
                     >
-                      <Icon className="h-4 w-4 shrink-0 opacity-80" strokeWidth={1.75} />
+                      <Icon
+                        className={cn('h-4 w-4 shrink-0', active ? 'text-brand' : 'opacity-70')}
+                        strokeWidth={1.75}
+                      />
                       {!collapsed && <span>{item.label}</span>}
                     </Link>
                   );

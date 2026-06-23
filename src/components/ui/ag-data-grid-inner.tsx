@@ -66,7 +66,7 @@ export default function AgDataGridInner<T>({
   const gridTheme = useMemo(
     () =>
       themeQuartz.withParams({
-        accentColor: resolvedTheme === 'dark' ? '#3b82f6' : '#1e3a5f',
+        accentColor: resolvedTheme === 'dark' ? '#3d8fd4' : '#0f4c75',
         backgroundColor: resolvedTheme === 'dark' ? '#111827' : '#ffffff',
         borderColor: resolvedTheme === 'dark' ? '#1e293b' : '#e8edf3',
         browserColorScheme: resolvedTheme === 'dark' ? 'dark' : 'light',

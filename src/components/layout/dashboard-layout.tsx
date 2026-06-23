@@ -8,7 +8,13 @@ import { Header } from './header';
 import { useSidebar } from '@/components/providers';
 import { cn } from '@/lib/utils';
 
-export function DashboardLayout({ children }: { children: React.ReactNode }) {
+export function DashboardLayout({
+  children,
+  fullWidth = false,
+}: {
+  children: React.ReactNode;
+  fullWidth?: boolean;
+}) {
   const router = useRouter();
   const { isAuthenticated } = useAuthStore();
   const { collapsed } = useSidebar();
@@ -24,8 +30,8 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
       <Sidebar />
       <div className={cn('flex min-h-screen flex-col transition-all duration-200', collapsed ? 'ml-[68px]' : 'ml-60')}>
         <Header />
-        <main className="flex-1 p-6 lg:p-8">
-          <div className="mx-auto max-w-[1400px]">{children}</div>
+        <main className={cn('flex-1', fullWidth ? 'p-4' : 'p-6 lg:p-8')}>
+          <div className={cn(fullWidth ? 'w-full' : 'mx-auto max-w-[1400px]')}>{children}</div>
         </main>
       </div>
     </div>

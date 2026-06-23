@@ -187,11 +187,10 @@ export function QuotationForm({ quotationId }: QuotationFormProps) {
     try {
       if (isEdit) {
         await api.patch(`/quotations/${quotationId}`, buildPayload());
-        router.push(`/quotations/${quotationId}`);
+        router.push('/quotations');
       } else {
-        const { data } = await api.post('/quotations', buildPayload());
-        const created = data.data || data;
-        router.push(`/quotations/${created.id}`);
+        await api.post('/quotations', buildPayload());
+        router.push('/quotations');
       }
     } catch (err: unknown) {
       const msg = (err as { response?: { data?: { message?: string | string[] } } })?.response?.data?.message;

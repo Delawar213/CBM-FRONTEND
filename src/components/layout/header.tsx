@@ -34,7 +34,7 @@ export function Header() {
     : 'U';
 
   return (
-    <header className="sticky top-0 z-30 flex h-14 items-center justify-between border-b border-border bg-card/80 px-6 backdrop-blur-md">
+    <header className="sticky top-0 z-30 flex h-14 items-center justify-between border-b border-border bg-card/95 px-6 shadow-sm backdrop-blur-md">
       <div className="flex items-center gap-2 text-sm">
         <span className="text-muted-foreground">CBM ERP</span>
         <span className="text-muted-foreground/50">/</span>
@@ -59,7 +59,7 @@ export function Header() {
           <div
             className={cn(
               'flex h-8 w-8 items-center justify-center rounded-full',
-              'bg-primary text-xs font-semibold text-primary-foreground',
+              'bg-primary text-xs font-semibold text-primary-foreground ring-2 ring-brand/30',
             )}
           >
             {initials}

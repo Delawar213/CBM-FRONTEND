@@ -4,7 +4,7 @@ import { useMemo, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useQuery } from '@tanstack/react-query';
-import type { ColDef } from 'ag-grid-community';
+import type { ColDef, GridOptions } from 'ag-grid-community';
 import type { LucideIcon } from 'lucide-react';
 import {
   Plus, ChevronLeft, ChevronRight, Search, Download,
@@ -29,6 +29,8 @@ interface ModuleListPageProps<T> {
   createLabel?: string;
   createHref?: string;
   detailHref?: (row: T) => string;
+  extraColumnDefs?: ColDef<T>[];
+  gridOptions?: GridOptions<T>;
 }
 
 const moduleIcons: Record<string, LucideIcon> = {
@@ -73,13 +75,32 @@ export function ModuleListPage<T extends object>({
   createLabel = 'New record',
   createHref,
   detailHref,
+  extraColumnDefs,
+  gridOptions: gridOptionsProp,
 }: ModuleListPageProps<T>) {
   const router = useRouter();
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState('');
 
   const Icon = icon ?? moduleIcons[queryKey] ?? FileText;
-  const enhancedCols = useMemo(() => enhanceColumns(columnDefs), [columnDefs]);
+  const enhancedCols = useMemo(
+    () => [...enhanceColumns(columnDefs), ...(extraColumnDefs ?? [])],
+    [columnDefs, extraColumnDefs],
+  );
+
+  const gridOptions = useMemo<GridOptions<T> | undefined>(() => {
+    const rowNav = detailHref
+      ? {
+          onRowClicked: (e: { data?: T; event?: Event }) => {
+            const target = e.event?.target as HTMLElement | undefined;
+            if (target?.closest('[data-row-action]')) return;
+            if (e.data) router.push(detailHref(e.data));
+          },
+          rowStyle: { cursor: 'pointer' as const },
+        }
+      : {};
+    return { ...rowNav, ...gridOptionsProp };
+  }, [detailHref, gridOptionsProp, router]);
 
   const { data, isLoading, isFetching, refetch } = useQuery({
     queryKey: [queryKey, page, search],
@@ -173,12 +194,7 @@ export function ModuleListPage<T extends object>({
               isLoading={isLoading}
               emptyTitle={`No ${title.toLowerCase()} yet`}
               emptyDescription="Create your first record to get started, or adjust your search filters."
-              gridOptions={detailHref ? {
-                onRowClicked: (e) => {
-                  if (e.data) router.push(detailHref(e.data as T));
-                },
-                rowStyle: { cursor: 'pointer' },
-              } : undefined}
+              gridOptions={gridOptions}
             />
           </div>
 
