@@ -36,17 +36,16 @@ export default function QuotationPrintPage({ params }: { params: Promise<{ id: s
             <ArrowLeft className="h-4 w-4" /> Back to edit
           </Button>
         </Link>
-        <Button size="sm" onClick={() => window.print()}>
-          <Printer className="h-4 w-4" /> Print / Save as PDF
-        </Button>
+        <div className="flex items-center gap-3">
+          <p className="hidden text-xs text-muted-foreground sm:block">
+            Tip: enable <strong>Background graphics</strong> in print settings for colors
+          </p>
+          <Button size="sm" onClick={() => window.print()}>
+            <Printer className="h-4 w-4" /> Print / Save as PDF
+          </Button>
+        </div>
       </div>
       <QuotationPrintView quotation={quotation} className="py-6 print:py-0" />
-      <style jsx global>{`
-        @media print {
-          body { background: white !important; }
-          @page { size: A4; margin: 12mm; }
-        }
-      `}</style>
     </div>
   );
 }

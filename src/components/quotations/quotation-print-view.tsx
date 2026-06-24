@@ -52,7 +52,7 @@ function LineItemRows({
                 </>
               )}
               {pIdx === 0 && (
-                <td rowSpan={span} className="border border-black px-2 py-1 align-top text-center font-semibold text-red-600">{opt.label}</td>
+                <td rowSpan={span} className="border border-black px-2 py-1 align-top text-center font-semibold qp-amount-red">{opt.label}</td>
               )}
               <td className="border border-black px-2 py-1">{prod.productName}</td>
               <td className="border border-black px-2 py-1 text-center">{prod.coats}</td>
@@ -62,11 +62,11 @@ function LineItemRows({
                   <td rowSpan={span} className="border border-black px-2 py-1 text-center">{formatNum(opt.quantity)}</td>
                   <td rowSpan={span} className="border border-black px-2 py-1 text-right">{formatNum(opt.unitRate)}</td>
                   {showDiscountCol && (
-                    <td rowSpan={span} className="border border-black px-2 py-1 text-right text-red-600">
+                    <td rowSpan={span} className="border border-black px-2 py-1 text-right qp-amount-red">
                       {disc > 0 ? formatNum(disc) : '—'}
                     </td>
                   )}
-                  <td rowSpan={span} className="border border-black px-2 py-1 text-right font-semibold text-red-600">
+                  <td rowSpan={span} className="border border-black px-2 py-1 text-right font-semibold qp-amount-red">
                     {formatAmount(net, currency)}
                   </td>
                 </>
@@ -101,11 +101,11 @@ function LineItemRows({
               <td rowSpan={span} className="border border-black px-2 py-1 text-center">{formatNum(row.quantity ?? 0)}</td>
               <td rowSpan={span} className="border border-black px-2 py-1 text-right">{formatNum(row.unitRate ?? 0)}</td>
               {showDiscountCol && (
-                <td rowSpan={span} className="border border-black px-2 py-1 text-right text-red-600">
+                <td rowSpan={span} className="border border-black px-2 py-1 text-right qp-amount-red">
                   {disc > 0 ? formatNum(disc) : '—'}
                 </td>
               )}
-              <td rowSpan={span} className="border border-black px-2 py-1 text-right font-semibold text-red-600">
+              <td rowSpan={span} className="border border-black px-2 py-1 text-right font-semibold qp-amount-red">
                 {formatAmount(net, currency)}
               </td>
             </>
@@ -130,7 +130,7 @@ export function QuotationPrintView({ quotation, className }: QuotationPrintViewP
   return (
     <div className={className}>
       <div className="quotation-print mx-auto max-w-[210mm] bg-white p-8 text-[11px] leading-snug text-black print:p-6">
-        <div className="mb-0 border-2 border-black bg-black px-4 py-2 text-center text-sm font-bold tracking-widest text-white">
+        <div className="mb-0 border-2 border-black qp-title-bar px-4 py-2 text-center text-sm font-bold tracking-widest">
           QUOTATION
         </div>
 
@@ -152,7 +152,7 @@ export function QuotationPrintView({ quotation, className }: QuotationPrintViewP
               </td>
             </tr>
             <tr>
-              <td colSpan={2} className="border border-black bg-neutral-700 px-3 py-1.5 font-bold text-white">
+              <td colSpan={2} className="border border-black px-3 py-1.5 font-bold qp-project-row">
                 Project: {quotation.projectName}
               </td>
             </tr>
@@ -163,8 +163,8 @@ export function QuotationPrintView({ quotation, className }: QuotationPrintViewP
         <p className="mb-4">{quotation.introText}</p>
 
         <table className="w-full border-collapse border-2 border-black text-[10px]">
-          <thead>
-            <tr className="bg-black text-white">
+          <thead className="qp-thead">
+            <tr>
               <th className="border border-black px-2 py-1.5 w-12">S.No</th>
               <th className="border border-black px-2 py-1.5">DESCRIPTION</th>
               <th className="border border-black px-2 py-1.5">PRODUCT NAME</th>
@@ -182,7 +182,7 @@ export function QuotationPrintView({ quotation, className }: QuotationPrintViewP
             {rows.map((row) => {
               if (row.type === 'section_header') {
                 return (
-                  <tr key={row.id} className="bg-yellow-300 font-bold">
+                  <tr key={row.id} className="qp-section-row">
                     <td colSpan={colSpan} className="border border-black px-2 py-1.5">{row.sectionTitle}</td>
                   </tr>
                 );
@@ -198,7 +198,7 @@ export function QuotationPrintView({ quotation, className }: QuotationPrintViewP
                 return (
                   <tr key={row.id} className="font-bold">
                     <td colSpan={priceColSpan} className="border border-black px-2 py-1.5 text-right">{row.subtotalLabel}</td>
-                    <td className="border border-black px-2 py-1.5 text-right text-red-600">
+                    <td className="border border-black px-2 py-1.5 text-right qp-amount-red">
                       {formatAmount(row.subtotalAmount ?? 0, currency)}
                     </td>
                   </tr>
@@ -227,7 +227,7 @@ export function QuotationPrintView({ quotation, className }: QuotationPrintViewP
           </div>
           {summary.hasItemDiscounts && (
             <div className="flex justify-end border-b border-black">
-              <div className="flex min-w-[240px] items-center justify-between gap-6 border-l border-black px-4 py-1.5 text-red-600">
+              <div className="flex min-w-[240px] items-center justify-between gap-6 border-l border-black px-4 py-1.5 qp-amount-red">
                 <span className="font-semibold">ITEM DISCOUNT</span>
                 <span>−{formatAmount(summary.itemDiscountTotal, currency)}</span>
               </div>
@@ -235,16 +235,16 @@ export function QuotationPrintView({ quotation, className }: QuotationPrintViewP
           )}
           {summary.hasGlobalDiscount && (
             <div className="flex justify-end border-b border-black">
-              <div className="flex min-w-[240px] items-center justify-between gap-6 border-l border-black px-4 py-1.5 text-red-600">
+              <div className="flex min-w-[240px] items-center justify-between gap-6 border-l border-black px-4 py-1.5 qp-amount-red">
                 <span className="font-semibold">OVERALL DISCOUNT</span>
                 <span>−{formatAmount(summary.globalDiscount, currency)}</span>
               </div>
             </div>
           )}
           <div className="flex justify-end">
-            <div className="flex min-w-[240px] items-center justify-between gap-6 border-l border-black bg-neutral-100 px-4 py-2 font-bold">
+            <div className="flex min-w-[240px] items-center justify-between gap-6 border-l border-black px-4 py-2 font-bold qp-total-row">
               <span>GRAND TOTAL</span>
-              <span className="text-red-600">{formatAmount(summary.grandTotal, currency)}</span>
+              <span className="qp-amount-red">{formatAmount(summary.grandTotal, currency)}</span>
             </div>
           </div>
         </div>
